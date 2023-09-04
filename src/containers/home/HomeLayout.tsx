@@ -9,13 +9,18 @@ import {
   TabProps,
   Box,
   Grid,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import InterviewSettingsForm from "./InterviewSettingsForm";
-import JobDetailsForm from "./JobDetailsForm";
-import RequisitionForm from "./RequisitionDetailsForm";
-import DisplayCard from "./PreviewCard";
-import { PageNumbers } from "../../interface/home";
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import InterviewSettingsForm from './InterviewSettingsForm';
+import JobDetailsForm from './JobDetailsForm';
+import RequisitionForm from './RequisitionDetailsForm';
+import DisplayCard from './PreviewCard';
+import { PageNumbers } from '../../interface/home';
+import {
+  IInterViewSettings,
+  IJobDetails,
+  IRequisitionDetails,
+} from '@src/interface/forms';
 
 const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
   return (
@@ -24,13 +29,18 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
     </Tab>
   );
 };
-
 const HomeLayout = () => {
   const [page, setPage] = useState<PageNumbers>(0);
 
   const handlePage = (pageNumber: PageNumbers) => {
     setPage(pageNumber);
   };
+  const [requisitionFormData, setRequisitionFormData] =
+    useState<IRequisitionDetails>();
+  const [jobDetailsFormData, setJobDetailsFormData] = useState<IJobDetails>();
+  const [InterviewSettingsFormData, setInterviewSettingsFormData] =
+    useState<IInterViewSettings>();
+
 
   return (
     <Box w="100%">
@@ -44,19 +54,42 @@ const HomeLayout = () => {
             <CustomTab>Job Details</CustomTab>
             <CustomTab>Interview Settings</CustomTab>
           </TabList>
-          <Grid display="grid" gridTemplateColumns="3fr 2fr" gap="24px">
+          <Grid
+            display="grid"
+            gridTemplateColumns="3fr 2fr"
+            gap="24px"
+          >
             <TabPanels>
               <TabPanel>
-                <RequisitionForm handleTab={handlePage} />
+                <RequisitionForm
+                  handleTab={handlePage}
+                  setRequisitionFormData={
+                    setRequisitionFormData
+                  }
+                />
               </TabPanel>
               <TabPanel>
-                <JobDetailsForm handleTab={handlePage} />
+                <JobDetailsForm
+                  handleTab={handlePage}
+                  setJobDetailsFormData={
+                    setJobDetailsFormData
+                  }
+                />
               </TabPanel>
               <TabPanel>
-                <InterviewSettingsForm handleTab={handlePage} />
+                <InterviewSettingsForm
+                  handleTab={handlePage}
+                  setInterviewSettingsFormData={
+                    setInterviewSettingsFormData
+                  }
+                />
               </TabPanel>
             </TabPanels>
-            <DisplayCard />
+            <DisplayCard
+              requisitionDetails={requisitionFormData}
+              jobDetails={jobDetailsFormData}
+              interviewSettings={InterviewSettingsFormData}
+            />
           </Grid>
         </Tabs>
       </Container>

@@ -1,18 +1,19 @@
-import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
-import FormSelect from "../../components/formComponents/FormSelect";
-import { useFormik } from "formik";
-import { PageNumbers } from "../../interface/home";
-import { IInterViewSettings } from "../../interface/forms";
+import { Button, Flex, Box } from '@chakra-ui/react';
+import React from 'react';
+import FormSelect from '../../components/formComponents/FormSelect';
+import { useFormik } from 'formik';
+import { PageNumbers } from '../../interface/home';
+import { IInterViewSettings } from '../../interface/forms';
 import {
   interviewDurationOptions,
   interviewLanguageOptions,
   interviewModeOptions,
-} from "./constants";
+} from './constants';
 
 const InterviewDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
-}> = ({ handleTab }) => {
+  setInterviewSettingsFormData: (data: IInterViewSettings) => void;
+}> = ({ handleTab, setInterviewSettingsFormData }) => {
   const {
     errors,
     touched,
@@ -22,15 +23,18 @@ const InterviewDetailsForm: React.FC<{
     setFieldValue,
   } = useFormik<IInterViewSettings>({
     initialValues: {
-      interviewMode: "",
-      interviewDuration: "",
-      interviewLanguage: "",
+      interviewMode: '',
+      interviewDuration: '',
+      interviewLanguage: '',
     },
     onSubmit: (values) => {
       console.log({ values });
-      alert("Form successfully submitted");
+      alert('Form successfully submitted');
     },
   });
+  React.useEffect(() => {
+    setInterviewSettingsFormData(values);
+  }, [values, setInterviewSettingsFormData]);
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -69,7 +73,11 @@ const InterviewDetailsForm: React.FC<{
           value={values.interviewLanguage}
         />
         <Flex w="100%" justify="flex-end" mt="4rem" gap="20px">
-          <Button colorScheme="gray" type="button" onClick={() => handleTab(1)}>
+          <Button
+            colorScheme="gray"
+            type="button"
+            onClick={() => handleTab(1)}
+          >
             Previous
           </Button>
           <Button colorScheme="red" type="submit">

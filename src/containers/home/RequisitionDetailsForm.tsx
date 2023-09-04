@@ -1,16 +1,17 @@
-import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
-import FormInput from "../../components/formComponents/FormInput";
-import FormSelect from "../../components/formComponents/FormSelect";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { PageNumbers } from "../../interface/home";
-import { IRequisitionDetails } from "../../interface/forms";
-import { genderOptions, urgencyOptions } from "./constants";
+import { Button, Flex, Box } from '@chakra-ui/react';
+import React from 'react';
+import FormInput from '../../components/formComponents/FormInput';
+import FormSelect from '../../components/formComponents/FormSelect';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { PageNumbers } from '../../interface/home';
+import { IRequisitionDetails } from '../../interface/forms';
+import { genderOptions, urgencyOptions } from './constants';
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
-}> = ({ handleTab }) => {
+  setRequisitionFormData: (data: IRequisitionDetails) => void;
+}> = ({ handleTab, setRequisitionFormData }) => {
   const {
     handleChange,
     errors,
@@ -23,31 +24,34 @@ const RequisitionDetailsForm: React.FC<{
     isValid,
   } = useFormik<IRequisitionDetails>({
     initialValues: {
-      requisitionTitle: "",
+      requisitionTitle: '',
       noOfOpenings: 0,
-      urgency: "",
-      gender: "",
+      urgency: '',
+      gender: '',
     },
     validationSchema: Yup.object().shape({
-      requisitionTitle: Yup.string().required("Requisition title is required"),
+      requisitionTitle: Yup.string().required(
+        'Requisition title is required'
+      ),
       noOfOpenings: Yup.number()
-        .typeError("Enter a valid number")
-        .required("Number of openings is required")
-        .positive("Enter a valid number")
-        .min(1, "Enter a valid number"),
-      urgency: Yup.string().required("Urgency is required"),
-      gender: Yup.string().required("Gender is required"),
+        .typeError('Enter a valid number')
+        .required('Number of openings is required')
+        .positive('Enter a valid number')
+        .min(1, 'Enter a valid number'),
+      urgency: Yup.string().required('Urgency is required'),
+      gender: Yup.string().required('Gender is required'),
     }),
     onSubmit: (values) => {
       handleTab(1);
     },
   });
-
+  React.useEffect(() => {
+    setRequisitionFormData(values);
+  }, [values, setRequisitionFormData]);
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
         <FormInput
-
           label="Requisition Title"
           placeholder="Enter requisition title"
           name="requisitionTitle"
@@ -58,7 +62,6 @@ const RequisitionDetailsForm: React.FC<{
           touched={touched?.requisitionTitle}
         />
         <FormInput
-
           label="Number of openings"
           placeholder="Enter number of openings"
           name="noOfOpenings"
@@ -69,7 +72,6 @@ const RequisitionDetailsForm: React.FC<{
           touched={touched?.noOfOpenings}
         />
         <FormSelect
-
           label="Gender"
           name="gender"
           placeholder="Select gender"

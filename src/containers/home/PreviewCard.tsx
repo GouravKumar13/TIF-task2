@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Grid } from "@chakra-ui/react";
 import React from "react";
+import * as Yup from "yup";
 import {
   IInterViewSettings,
   IJobDetails,
@@ -12,6 +13,7 @@ import {
   interviewModeOptions,
   urgencyOptions,
 } from "./constants";
+import { useFormik } from "formik";
 
 const DataCard: React.FC<{ title: string; children: React.ReactNode }> = ({
   title,
@@ -51,6 +53,7 @@ const PreviewCard: React.FC<{
   interviewSettings?: IInterViewSettings;
 }> = ({ requisitionDetails, jobDetails, interviewSettings }) => {
 
+
   return (
     <Box p="1rem">
       <Box borderRadius="10px" bgColor="gray.100" height="fit-content">
@@ -81,6 +84,7 @@ const PreviewCard: React.FC<{
               alignItems="center"
             >
               <Text fontSize="0.9rem" fontWeight="500">
+
                 {requisitionDetails?.requisitionTitle}
               </Text>
               <Flex justifyContent="space-around" alignItems="center">
