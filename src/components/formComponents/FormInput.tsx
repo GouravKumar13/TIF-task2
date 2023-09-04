@@ -40,6 +40,7 @@ const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
           onBlur={onBlur}
           // styles
           width="100%"
+          zIndex="20"
           maxHeight="none !important"
           minW="272px"
           height="45px"
